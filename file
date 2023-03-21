@@ -1,0 +1,14 @@
+sudo docker exec -it cnt7-naya-cdh63 bash
+sudo su naya
+cd /home/naya/
+
+conda update --all
+
+docker cp c:\path\to\local\file container_name:/path/to/target/dir/
+docker ps --format "{{.Names}}"
+
+
+mongoimport --db treesize_db --collection col_INFO --jsonArray --file Svetlana_Last_2023_03_12_224822_INFO_Main.txt
+mongoimport --db treesize_db --collection col_F_INFO --jsonArray --file Svetlana_Last_2023_03_12_224822_INFO_DIR.txt
+mongoimport --db treesize_db --collection col_DIR --jsonArray --file Svetlana_Last_2023_03_12_224822_dir_1.txt
+mongoimport --db treesize_db --collection col_DIR --jsonArray --file Svetlana_Last_2023_03_12_224822_dir_2.txt
