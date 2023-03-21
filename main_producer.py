@@ -1,18 +1,17 @@
-from src import conf as co
+from src import configuration as co
 from src import utils_fs as ut
 
 """create a kafka Producer"""
 producer = ut.KafkaProducer(
-    bootstrap_servers=co.brokers,
+    bootstrap_servers=co.bootstrap_servers,
     client_id='producer',
     acks=1,
     compression_type=None,
     retries=3)
 
-""" get all files from a folder"""
+""" get all json_files from a folder"""
 while True:
     json_files = ut.get_all_files(co.source_file)
-    print(json_files)
 
     list_file_info = []
     list_file_info_dir = []
@@ -35,4 +34,5 @@ while True:
         ut.send_file_topic(producer, list_file_dir, co.topic_dir)
 
     print("sending data to kafka...")
-    sleep(3)
+    ut.sleep(10)
+

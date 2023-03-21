@@ -13,6 +13,7 @@ from kafka import KafkaConsumer
 from kafka import KafkaProducer
 
 
+
 def get_all_files(source_file):
     file_names = next(os.walk(source_file), (None, None, []))[2]
     file_names_abs = [source_file + "/" + file_name for file_name in file_names]
@@ -25,13 +26,14 @@ def send_file_topic(producer, source_file, topic_dest):
             lines = file.readlines()  # returns list of strings
             producer.send(topic=topic_dest, value=json.dumps(lines).encode('utf-8'))
             producer.flush()
+            print(source_file)
 
 
-def create_spark_df(spark, brokers, topic):
+def create_spark_df(spark, bootstrap_servers, topic):
     df = spark \
         .readStream \
         .format("kafka") \
-        .option("kafka.bootstrap.servers", brokers) \
+        .option("kafka.bootstrap.servers", bootstrap_servers) \
         .option("Subscribe", topic)\
         .load()\
         .selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
